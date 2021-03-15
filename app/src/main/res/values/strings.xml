@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Online FIR</string>
+    <!--    <string name=""></string> -->
+    <string name="login">Login</string>
+    <string name="sign_in">Sign Up</string>
+    <string name="user_name">User Name</string>
+    <string name="first_name">First Name</string>
+    <string name="middle_name">Middle Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="password">Password</string>
+    <string name="cpassword">Confirm Password</string>
+    <string name="email">Email</string>
+    <string name="phone_no">Phone No</string>
+    <string name="pincode">Pincode</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="birth_date">Date Of Birth</string>
+    <string name="already_have_account">Already Have Account? Login</string>
+
+    <!-- complain Type-->
+    <string name="antisocial_behaviour">Antisocial Behaviour</string>
+    <string name="arson">Arson</string>
+    <string name="burglary">Burglary</string>
+    <string name="child_abuse">Child abuse</string>
+    <string name="cyber_crime">Cyber Crime</string>
+    <string name="domestic_abuse">Domestic Abuse</string>
+    <string name="fraud">Fraud</string>
+    <string name="image_based_sexual_abuse">Image-based Sexual Abuse</string>
+    <string name="modern_slavery">Modern Slavery</string>
+    <string name="murder_manslaughter">Murder or Manslaughter</string>
+    <string name="rape_and_sexual_assault">Rape and sexual Assault</string>
+    <string name="robbery">Robbery</string>
+    <string name="sexual_harassment">Sexual Harassment</string>
+    <string name="stalking_and_harrasment">Stalking and Harrasment</string>
+    <string name="terrorist">Terrorist attacks</string>
+    <string name="violent_crime">Violent Crime</string>
+
+    <string name="complain">Complain</string>
+    <string name="full_name">Full Name</string>
+    <string name="crime_spot">Crime Spot</string>
+    <string name="description">Description</string>
+    <string name="category">Category</string>
+    <string name="incidentDate">Date Of Incident</string>
+    <string name="incidentTime">Time Of Incident</string>
+    <string name="submitReport">Submit Report</string>
+
+    /<!-- Status -->
+    <string name="yourStatus">Your Status</string>
+</resources>
