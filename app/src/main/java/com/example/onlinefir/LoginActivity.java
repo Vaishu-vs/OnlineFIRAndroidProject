@@ -15,7 +15,14 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,7 +35,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Cursor cursor;
     SQLiteDatabase db;
     SQLiteOpenHelper openHelper;
-
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,20 +61,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+
+        String Email = email.getText().toString();
+        String Password = password.getText().toString();
         switch (v.getId()) {
             case R.id.login:
-                if (isValidEmailId(email.getText().toString().trim()) && password.getText().toString().length() >= 4 && isValidPassword(password.getText().toString()) && phone_no.getText().toString().matches(MobilePattern)) {
-                    AddData();
-                } else if (password.getText().toString().length() < 4) {
+                if (password.getText().toString().length() < 4) {
                     password.setError("Enter password having length more than 4 characters");
-                } else if (isValidPassword(password.getText().toString()) == false) {
-                    password.setError("at least 1 Alphabet,Number & Special Character Require");
-                } else if (phone_no.getText().toString().matches(MobilePattern) == false) {
-                    phone_no.setError("Number Should Contain 10 digits.");
                 } else if (isValidEmailId(email.getText().toString().trim()) == false) {
                     email.setError("InValid Email Address.");
                 } else {
-                    Toast.makeText(getApplicationContext(), "InValid Enteries... ", Toast.LENGTH_LONG).show();
+                    AddData(Email,Password);
                 }
         }
     }
@@ -102,27 +106,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return matcher.matches();
     }
 
-    public void AddData() {
-        String Email = email.getText().toString();
-        String Password = password.getText().toString();
-        String Phone_no = phone_no.getText().toString();
-        if (Email.equals("") || Password.equals("") || Phone_no.equals(""))
-            Toast.makeText(getApplicationContext(), "None of the field should be empty", Toast.LENGTH_LONG).show();
-        else {
-            cursor = db.rawQuery("SELECT * FROM " + BackgroundWorker.TABLE_NAME + " WHERE " + BackgroundWorker.COL_5 + "=? AND " + BackgroundWorker.COL_6 + "=?", new String[]{Email, Password});
-            if (cursor != null) {
-                if (cursor.getCount() > 0) {
-                    email.setText("");
-                    password.setText("");
-                    Intent i = new Intent(getApplicationContext(), LayoutManager.class);
-                    startActivity(i);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Login error  " + cursor.getCount(), Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(getApplicationContext(), "Password don't match", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-}
+    public void AddData(String email,String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("TAG", "createUserWithEmail:success");
+                            Intent intent = new Intent(getApplicationContext(), LayoutManagerActivity.class);
+                            startActivity(intent);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("TAG", "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
 
+                        }
+
+                        // ...
+                    }
+                });
+    } }

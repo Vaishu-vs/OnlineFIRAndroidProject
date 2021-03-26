@@ -3,14 +3,29 @@ package com.example.onlinefir;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,7 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int year = calendar.get(Calendar.YEAR);
     int month = calendar.get(Calendar.MONTH);
     int day = calendar.get(Calendar.DAY_OF_MONTH);
-
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("PROFILE");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,20 +99,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.signin:
-                if (isValidEmailId(email.getText().toString().trim()) && password.getText().toString().length() >= 6 && isValidPassword(password.getText().toString()) && phone_no.getText().toString().matches(MobilePattern)) {
-                    AddData();
-                } else if (password.getText().toString().length() < 6) {
+               if (password.getText().toString().length() < 6) {
                     password.setError("Enter password having length more than 6 characters");
-                } else if (isValidPassword(password.getText().toString()) == false) {
-                    password.setError("at least 1 Alphabet,Number & Special Character Require");
-                } else if (phone_no.getText().toString().matches(MobilePattern) == false) {
-                    phone_no.setError("Number Should Contain 10 digits.");
-                }else if (pincode.getText().toString().matches(PincodePattern) == false) {
-                    phone_no.setError("Number Should Contain 6 digits.");
-                } else if (isValidEmailId(email.getText().toString().trim()) == false) {
-                    email.setError("InValid Email Address.");
                 } else {
-                    Toast.makeText(getApplicationContext(), "InValid Enteries... ", Toast.LENGTH_LONG).show();
+                   AddData();
                 }
         }
     }
@@ -119,46 +126,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void AddData() {
-        String s1 = first_name.getText().toString();
-        String s2 = middle_name.getText().toString();
-        String s3 = last_name.getText().toString();
-        String s4 = email.getText().toString();
-        String s5 = password.getText().toString();
-        String s6 = cpassword.getText().toString();
-        String s7 = phone_no.getText().toString();
-        String s8 = address.getText().toString();
-        String s9 = city.getText().toString();
-        String s10 = pincode.getText().toString();
-        String s11 = gender.toString();
-        String s12 = birthdate.getText().toString();
-        if (s1.equals("") || s2.equals("") || s3.equals("") || s4.equals("") || s5.equals("") || s6.equals("") || s7.equals("") || s8.equals("") || s9.equals("") || s10.equals("") || s11.equals("") || s12.equals(""))
-            Toast.makeText(getApplicationContext(), "None of the field should be empty", Toast.LENGTH_LONG).show();
-        else {
-            if (s5.equals(s6)) {
-                boolean isInserted = myDb.insertData(
-                        first_name.getText().toString(),
-                        middle_name.getText().toString(),
-                        last_name.getText().toString(),
-                        email.getText().toString(),
-                        password.getText().toString(),
-                        phone_no.getText().toString(),
-                        address.getText().toString(),
-                        city.getText().toString(),
-                        pincode.getText().toString(),
-                        gender.toString(),
-                        birthdate.getText().toString()
-                );
-                if (isInserted == true) {
-                    Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
-                }
-                else
-                    Toast.makeText(getApplicationContext(), "Data not Inserted", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "Password don't match", Toast.LENGTH_LONG).show();
+        String emailStr = email.getText().toString();
+        String passwordStr = password.getText().toString();
+
+        Toast.makeText(MainActivity.this, "Creating Account.",
+                Toast.LENGTH_SHORT).show();
+            mAuth.createUserWithEmailAndPassword(emailStr, passwordStr)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Toast.makeText(MainActivity.this, "Generating Profile.",
+                                        Toast.LENGTH_SHORT).show();
+                                pushData();
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("TAG", "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(MainActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+
+                            }
+
+                            // ...
+                        }
+                    });
+
+    }
+
+    private void pushData(){
+        String F_NAME = first_name.getText().toString();
+        String M_NAME = middle_name.getText().toString();
+        String L_NAME = last_name.getText().toString();
+        String PHONE = phone_no.getText().toString();
+        String ADDRESS = address.getText().toString();
+        String CITY = city.getText().toString();
+        String PINCODE = pincode.getText().toString();
+        String GENDER = gender.toString();
+        String BIRTHDATE = birthdate.getText().toString();
+
+        Map<String,Object> taskMap = new HashMap<>();
+        taskMap.put("F_NAME", F_NAME);
+        taskMap.put("M_NAME", M_NAME);
+        taskMap.put("L_NAME", L_NAME);
+        taskMap.put("PHONE", PHONE);
+        taskMap.put("ADDRESS", ADDRESS);
+        taskMap.put("CITY", CITY);
+        taskMap.put("L_NAME", L_NAME);
+        taskMap.put("PHONE", PHONE);
+        myRef.setValue(taskMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(MainActivity.this,"Profile Created",Toast.LENGTH_LONG);
             }
-        }
+        });
+
     }
 }
 
