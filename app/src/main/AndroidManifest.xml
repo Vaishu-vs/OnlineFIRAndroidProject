@@ -24,7 +24,7 @@
             android:name="android.webkit.WebView.EnableSafeBrowsing"
             android:value="false" />
 
-        <activity android:name=".LayoutManager" />
+        <activity android:name=".LayoutManagerActivity" />
         <activity
             android:name=".ComplainActivity"
             tools:ignore="Instantiatable" />
