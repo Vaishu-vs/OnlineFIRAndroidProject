@@ -17,8 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OnlineFIR">
-        <activity android:name=".ShowStatusActivity"></activity>
-        <activity android:name=".StatusActivity" />
+        <activity android:name=".DisplayComplainActivity"></activity>
+        <activity android:name=".ShowStatusActivity" />
+        <activity android:name=".StatusActivity"
+            tools:ignore="Instantiatable" />
 
         <meta-data
             android:name="android.webkit.WebView.EnableSafeBrowsing"

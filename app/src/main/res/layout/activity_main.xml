@@ -31,7 +31,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/first_name"
+            android:id="@+id/editTextfirst_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -48,7 +48,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/middle_name"
+            android:id="@+id/editTextmiddle_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -65,7 +65,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/last_name"
+            android:id="@+id/editTextlast_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -82,7 +82,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/editTextemail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -99,7 +99,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/editTextpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -116,7 +116,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/cpassword"
+            android:id="@+id/editTextcpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -133,7 +133,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/phone_no"
+            android:id="@+id/editTextphone_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -150,7 +150,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/address"
+            android:id="@+id/editTextaddress"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginBottom="10dp"
@@ -167,7 +167,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/city"
+            android:id="@+id/editTextcity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -184,7 +184,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/pincode"
+            android:id="@+id/editTextpincode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -201,7 +201,7 @@
             android:textSize="18sp" />
 
         <RadioGroup
-            android:id="@+id/gender"
+            android:id="@+id/radioGroupgender"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
@@ -232,7 +232,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/birthdate"
+            android:id="@+id/editTextbirthdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -261,5 +261,13 @@
             android:text="@string/already_have_account"
             android:textColor="@color/blue_500"
             android:backgroundTint="@color/white" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>

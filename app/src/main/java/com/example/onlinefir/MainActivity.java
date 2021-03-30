@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -19,33 +20,29 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public BackgroundWorker myDb;
-    String MobilePattern = "[0-9]{10}";
-    String PincodePattern = "[0-9]{6}";
-    private EditText first_name;
-    private EditText middle_name;
-    private EditText last_name;
-    private EditText email;
-    private EditText password;
-    private EditText cpassword;
-    private EditText phone_no;
-    private EditText address;
-    private EditText city;
-    private EditText pincode;
-    private RadioGroup gender;
-    private EditText birthdate;
+    private EditText editTextfirst_name;
+    private EditText editTextmiddle_name;
+    private EditText editTextlast_name;
+    private EditText editTextemail;
+    private EditText editTextpassword;
+    private EditText editTextcpassword;
+    private EditText editTextphone_no;
+    private EditText editTextaddress;
+    private EditText editTextcity;
+    private EditText editTextpincode;
+    private RadioGroup radioGroupgender;
+    private EditText editTextbirthdate;
     private Button signin;
+    private ProgressBar progressBar;
     Calendar calendar = Calendar.getInstance();
     int year = calendar.get(Calendar.YEAR);
     int month = calendar.get(Calendar.MONTH);
@@ -53,28 +50,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("PROFILE");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myDb = new BackgroundWorker(this);
-        first_name = (EditText) findViewById(R.id.first_name);
-        middle_name = (EditText) findViewById(R.id.middle_name);
-        last_name = (EditText) findViewById(R.id.last_name);
-        email = (EditText) findViewById(R.id.email);
-        password = (EditText) findViewById(R.id.password);
-        cpassword = (EditText) findViewById(R.id.cpassword);
-        phone_no = (EditText) findViewById(R.id.phone_no);
-        address = (EditText) findViewById(R.id.address);
-        city = (EditText) findViewById(R.id.city);
-        pincode = (EditText) findViewById(R.id.pincode);
-        gender = (RadioGroup) findViewById(R.id.gender);
-        birthdate = (EditText) findViewById(R.id.birthdate);
+        editTextfirst_name = (EditText) findViewById(R.id.editTextfirst_name);
+        editTextmiddle_name = (EditText) findViewById(R.id.editTextmiddle_name);
+        editTextlast_name = (EditText) findViewById(R.id.editTextlast_name);
+        editTextemail = (EditText) findViewById(R.id.editTextemail);
+        editTextpassword = (EditText) findViewById(R.id.editTextpassword);
+        editTextcpassword = (EditText) findViewById(R.id.editTextcpassword);
+        editTextphone_no = (EditText) findViewById(R.id.editTextphone_no);
+        editTextaddress = (EditText) findViewById(R.id.editTextaddress);
+        editTextcity = (EditText) findViewById(R.id.editTextcity);
+        editTextpincode = (EditText) findViewById(R.id.editTextpincode);
+        radioGroupgender = (RadioGroup) findViewById(R.id.radioGroupgender);
+        editTextbirthdate = (EditText) findViewById(R.id.editTextbirthdate);
         signin = (Button) findViewById(R.id.signin);
         Button btnLogin = (Button) findViewById(R.id.btnLogin);
 
-        birthdate.setOnClickListener(this);
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("PROFILE");
+
+        editTextbirthdate.setOnClickListener(this);
         signin.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
     }
@@ -83,12 +83,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.birthdate:
+            case R.id.editTextbirthdate:
                 DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         String sDate = dayOfMonth + "/" + month + "/" + year;
-                        birthdate.setText(sDate);
+                        editTextbirthdate.setText(sDate);
                     }
                 }, year, month, day);
                 datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
@@ -99,88 +99,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.signin:
-               if (password.getText().toString().length() < 6) {
-                    password.setError("Enter password having length more than 6 characters");
+                if (editTextpassword.getText().toString().length() < 5) {
+                    editTextpassword.setError("Enter password having length more than 5 characters");
                 } else {
-                   AddData();
+                    if (editTextpassword.getText().toString() == editTextcpassword.getText().toString()) {
+                        AddData();
+                    } else {
+                        editTextcpassword.setError("Password and confirm password is not same");
+                    }
                 }
         }
     }
 
-    private boolean isValidEmailId(String email) {
-        return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
-                + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
-                + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
-                + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$").matcher(email).matches();
-    }
-
-    public static boolean isValidPassword(final String password) {
-        Pattern pattern;
-        Matcher matcher;
-        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
-        pattern = Pattern.compile(PASSWORD_PATTERN);
-        matcher = pattern.matcher(password);
-        return matcher.matches();
-    }
-
     public void AddData() {
-        String emailStr = email.getText().toString();
-        String passwordStr = password.getText().toString();
+        String emailStr = editTextemail.getText().toString();
+        String passwordStr = editTextpassword.getText().toString();
 
-        Toast.makeText(MainActivity.this, "Creating Account.",
-                Toast.LENGTH_SHORT).show();
-            mAuth.createUserWithEmailAndPassword(emailStr, passwordStr)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Toast.makeText(MainActivity.this, "Generating Profile.",
-                                        Toast.LENGTH_SHORT).show();
-                                pushData();
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(MainActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-
-                            }
-
-                            // ...
-                        }
-                    });
-
-    }
-
-    private void pushData(){
-        String F_NAME = first_name.getText().toString();
-        String M_NAME = middle_name.getText().toString();
-        String L_NAME = last_name.getText().toString();
-        String PHONE = phone_no.getText().toString();
-        String ADDRESS = address.getText().toString();
-        String CITY = city.getText().toString();
-        String PINCODE = pincode.getText().toString();
-        String GENDER = gender.toString();
-        String BIRTHDATE = birthdate.getText().toString();
-
-        Map<String,Object> taskMap = new HashMap<>();
-        taskMap.put("F_NAME", F_NAME);
-        taskMap.put("M_NAME", M_NAME);
-        taskMap.put("L_NAME", L_NAME);
-        taskMap.put("PHONE", PHONE);
-        taskMap.put("ADDRESS", ADDRESS);
-        taskMap.put("CITY", CITY);
-        taskMap.put("L_NAME", L_NAME);
-        taskMap.put("PHONE", PHONE);
-        myRef.setValue(taskMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mAuth.createUserWithEmailAndPassword(emailStr, passwordStr).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(MainActivity.this,"Profile Created",Toast.LENGTH_LONG);
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    pushData();
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("TAG", "createUserWithEmail:failure", task.getException());
+                    Toast.makeText(MainActivity.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
+    }
+
+    private void pushData() {
+        String F_NAME = editTextfirst_name.getText().toString();
+        String M_NAME = editTextmiddle_name.getText().toString();
+        String L_NAME = editTextlast_name.getText().toString();
+        String EMAIL = editTextemail.getText().toString();
+        String PASSWORD = editTextpassword.getText().toString();
+        String PHONE = editTextphone_no.getText().toString();
+        String ADDRESS = editTextaddress.getText().toString();
+        String CITY = editTextcity.getText().toString();
+        String PINCODE = editTextpincode.getText().toString();
+        String GENDER = radioGroupgender.toString();
+        String BIRTHDATE = editTextbirthdate.getText().toString();
+
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        Map<String, Object> taskMap = new HashMap<>();
+        taskMap.put("F_NAME", F_NAME);
+        taskMap.put("M_NAME", M_NAME);
+        taskMap.put("L_NAME", L_NAME);
+        taskMap.put("EMAIL", EMAIL);
+        taskMap.put("PASSWORD", PASSWORD);
+        taskMap.put("PHONE", PHONE);
+        taskMap.put("ADDRESS", ADDRESS);
+        taskMap.put("CITY", CITY);
+        taskMap.put("PINCODE", PINCODE);
+        taskMap.put("GENDER", GENDER);
+        taskMap.put("BIRTHDATE", BIRTHDATE);
+        String currentuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        progressBar.setVisibility(View.GONE);
+        myRef.child(currentuser).setValue(taskMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
 
