@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ComplainActivity extends Fragment implements View.OnClickListener {
-    public BackgroundWorker myDb;
     private EditText user_name;
     private EditText email;
     private EditText crime_spot;
@@ -65,9 +64,9 @@ public class ComplainActivity extends Fragment implements View.OnClickListener {
         date_of_incident = (EditText) view.findViewById(R.id.editTextdate_of_incident);
         time_of_incident = (EditText) view.findViewById(R.id.editTexttime_of_incident);
         submit = (Button) view.findViewById(R.id.submit);
-        date_of_incident.setOnClickListener(this);
-        submit = (Button) view.findViewById(R.id.submit);
 
+        date_of_incident.setOnClickListener(this);
+        submit.setOnClickListener(this);
     }
 
     @Override
@@ -90,71 +89,7 @@ public class ComplainActivity extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void registerComplain() {
-        String User_name = user_name.getText().toString();
-        String Email = email.getText().toString();
-        String Crime_spot = crime_spot.getText().toString();
-        String Pincode = pincode.getText().toString();
-        String Description = description.getText().toString();
-        String Category = category.getText().toString();
-        String Date_of_incident = date_of_incident.getText().toString();
-        String Time_of_incident = time_of_incident.getText().toString();
-        if (TextUtils.isEmpty(User_name)) {
-            user_name.setError("Please enter name");
-            user_name.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(Email)) {
-            email.setError("Please enter email");
-            email.requestFocus();
-            return;
-        }
-
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(Email).matches()) {
-            email.setError("Enter a valid email");
-            email.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(Crime_spot)) {
-            crime_spot.setError("Please enter crime spot");
-            crime_spot.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(Pincode)) {
-            pincode.setError("Please enter pincode");
-            pincode.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(Description)) {
-            description.setError("Please enter description");
-            description.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(Category)) {
-            category.setError("Enter category of crime");
-            category.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(Date_of_incident)) {
-            date_of_incident.setError("Enter date when incident happen");
-            date_of_incident.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(Time_of_incident)) {
-            time_of_incident.setError("Enter time when incident happen");
-            time_of_incident.requestFocus();
-            return;
-        }
-    }
-
-    private void pushData() {
+    private void registerComplain() {
         String User_name = user_name.getText().toString();
         String Email = email.getText().toString();
         String Crime_spot = crime_spot.getText().toString();
@@ -178,7 +113,7 @@ public class ComplainActivity extends Fragment implements View.OnClickListener {
         myRef.push().setValue(taskMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Intent intent = new Intent(getContext(), LayoutManagerActivity.class);
+                Intent intent = new Intent(getContext(), DisplayComplainActivity.class);
                 startActivity(intent);
             }
         });

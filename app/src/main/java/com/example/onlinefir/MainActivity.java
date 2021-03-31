@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public BackgroundWorker myDb;
     private EditText editTextfirst_name;
     private EditText editTextmiddle_name;
     private EditText editTextlast_name;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText editTextpincode;
     private RadioGroup radioGroupgender;
     private EditText editTextbirthdate;
-    private Button signin;
+    private Button signin, btnLogin;
     private ProgressBar progressBar;
     Calendar calendar = Calendar.getInstance();
     int year = calendar.get(Calendar.YEAR);
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         radioGroupgender = (RadioGroup) findViewById(R.id.radioGroupgender);
         editTextbirthdate = (EditText) findViewById(R.id.editTextbirthdate);
         signin = (Button) findViewById(R.id.signin);
-        Button btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("PROFILE");
@@ -102,11 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (editTextpassword.getText().toString().length() < 5) {
                     editTextpassword.setError("Enter password having length more than 5 characters");
                 } else {
-                    if (editTextpassword.getText().toString() == editTextcpassword.getText().toString()) {
-                        AddData();
-                    } else {
-                        editTextcpassword.setError("Password and confirm password is not same");
-                    }
+                    AddData();
                 }
         }
     }
@@ -120,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
+                    Toast.makeText(MainActivity.this, "Generating Profile.",
+                            Toast.LENGTH_SHORT).show();
                     pushData();
                 } else {
                     // If sign in fails, display a message to the user.
@@ -145,8 +142,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String GENDER = radioGroupgender.toString();
         String BIRTHDATE = editTextbirthdate.getText().toString();
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+//        progressBar.setVisibility(View.VISIBLE);
 
         Map<String, Object> taskMap = new HashMap<>();
         taskMap.put("F_NAME", F_NAME);
@@ -161,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         taskMap.put("GENDER", GENDER);
         taskMap.put("BIRTHDATE", BIRTHDATE);
         String currentuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        progressBar.setVisibility(View.GONE);
+       // progressBar.setVisibility(View.GONE);
         myRef.child(currentuser).setValue(taskMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

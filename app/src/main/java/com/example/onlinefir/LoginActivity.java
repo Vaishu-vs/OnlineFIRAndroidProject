@@ -25,11 +25,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    String MobilePattern = "[0-9]{10}";
     private EditText email;
     private EditText password;
-    private EditText phone_no;
-    Cursor cursor;
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
@@ -41,15 +38,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         password = (EditText) findViewById(R.id.password);
         Button login = (Button) findViewById(R.id.login);
 
-//        openHelper = new BackgroundWorker(this);
-//        db = openHelper.getReadableDatabase();
-
         login.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-
         String Email = email.getText().toString();
         String Password = password.getText().toString();
         switch (v.getId()) {
