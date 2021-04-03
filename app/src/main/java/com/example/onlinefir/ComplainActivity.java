@@ -1,6 +1,7 @@
 package com.example.onlinefir;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -66,6 +68,7 @@ public class ComplainActivity extends Fragment implements View.OnClickListener {
         submit = (Button) view.findViewById(R.id.submit);
 
         date_of_incident.setOnClickListener(this);
+        time_of_incident.setOnClickListener(this);
         submit.setOnClickListener(this);
     }
 
@@ -74,6 +77,21 @@ public class ComplainActivity extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.submit:
                 registerComplain();
+                break;
+            case R.id.editTexttime_of_incident:
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        time_of_incident.setText(selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);  //24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
                 break;
             case R.id.editTextdate_of_incident:
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {

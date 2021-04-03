@@ -1,11 +1,8 @@
 package com.example.onlinefir;
 
+import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,13 +18,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText email;
     private EditText password;
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String SPEmail = "emailKey";
+    public static final String SPPassword = "passwordKey";
+    SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         Button login = (Button) findViewById(R.id.login);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         login.setOnClickListener(this);
     }
@@ -45,6 +45,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         String Email = email.getText().toString();
         String Password = password.getText().toString();
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(SPEmail, Email);
+        editor.putString(SPPassword, Password);
+        editor.commit();
         switch (v.getId()) {
             case R.id.login:
                 if (password.getText().toString().length() < 5) {
@@ -52,27 +57,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     AddData(Email, Password);
                 }
+                break;
+            default:
+                return;
         }
     }
 
     public void AddData(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "createUserWithEmail:success");
-                            Intent intent = new Intent(getApplicationContext(), LayoutManagerActivity.class);
-                            startActivity(intent);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                });
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("TAG", "createUserWithEmail:success");
+                    Intent intent = new Intent(getApplicationContext(), LayoutManagerActivity.class);
+                    startActivity(intent);
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("TAG", "createUserWithEmail:failure", task.getException());
+                    Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

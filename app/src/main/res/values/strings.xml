@@ -19,24 +19,9 @@
     <string name="female">Female</string>
     <string name="birth_date">Date Of Birth</string>
     <string name="already_have_account">Already Have Account? Login</string>
-
-    <!-- complain Type-->
-    <string name="antisocial_behaviour">Antisocial Behaviour</string>
-    <string name="arson">Arson</string>
-    <string name="burglary">Burglary</string>
-    <string name="child_abuse">Child abuse</string>
-    <string name="cyber_crime">Cyber Crime</string>
-    <string name="domestic_abuse">Domestic Abuse</string>
-    <string name="fraud">Fraud</string>
-    <string name="image_based_sexual_abuse">Image-based Sexual Abuse</string>
-    <string name="modern_slavery">Modern Slavery</string>
-    <string name="murder_manslaughter">Murder or Manslaughter</string>
-    <string name="rape_and_sexual_assault">Rape and sexual Assault</string>
-    <string name="robbery">Robbery</string>
-    <string name="sexual_harassment">Sexual Harassment</string>
-    <string name="stalking_and_harrasment">Stalking and Harrasment</string>
-    <string name="terrorist">Terrorist attacks</string>
-    <string name="violent_crime">Violent Crime</string>
+    <string name="no_account">Create an account?</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="exit">Logout</string>
 
     <string name="complain">Complain</string>
     <string name="full_name">Full Name</string>
@@ -45,6 +30,7 @@
     <string name="category">Category</string>
     <string name="incidentDate">Date Of Incident</string>
     <string name="incidentTime">Time Of Incident</string>
+    <string name="policeStation">Police Station</string>
     <string name="submitReport">Submit Report</string>
 
     /<!-- Status -->

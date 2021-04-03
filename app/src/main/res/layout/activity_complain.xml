@@ -59,9 +59,24 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/policeStation"
+            android:textColor="@color/editText"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editTextPoliceStation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@xml/input"
+            android:ems="10"
+            android:inputType="text"
+            android:padding="10dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/crime_spot"
-            android:inputType="textMultiLine"
-            android:lines="5"
             android:textColor="@color/editText"
             android:textSize="18sp" />
 
@@ -72,8 +87,8 @@
             android:layout_marginBottom="10dp"
             android:background="@xml/input"
             android:ems="10"
+            android:lines="5"
             android:inputType="textMultiLine"
-            android:maxLength="20"
             android:padding="10dp" />
 
         <TextView

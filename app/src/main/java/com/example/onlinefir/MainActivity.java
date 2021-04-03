@@ -3,12 +3,15 @@ package com.example.onlinefir;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText editTextaddress;
     private EditText editTextcity;
     private EditText editTextpincode;
+    private RadioButton radiobuttonGender;
     private RadioGroup radioGroupgender;
     private EditText editTextbirthdate;
     private Button signin, btnLogin;
@@ -67,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextpincode = (EditText) findViewById(R.id.editTextpincode);
         radioGroupgender = (RadioGroup) findViewById(R.id.radioGroupgender);
         editTextbirthdate = (EditText) findViewById(R.id.editTextbirthdate);
+
+        int selectedInt = radioGroupgender.getCheckedRadioButtonId();
+        radiobuttonGender = (RadioButton) findViewById(selectedInt);
         signin = (Button) findViewById(R.id.signin);
         btnLogin = (Button) findViewById(R.id.btnLogin);
 
@@ -139,8 +146,81 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String ADDRESS = editTextaddress.getText().toString();
         String CITY = editTextcity.getText().toString();
         String PINCODE = editTextpincode.getText().toString();
-        String GENDER = radioGroupgender.toString();
+        String GENDER = radiobuttonGender.getText().toString();
         String BIRTHDATE = editTextbirthdate.getText().toString();
+
+        //first we will do the validations
+        if (TextUtils.isEmpty(F_NAME)) {
+            editTextfirst_name.setError("Please enter first name");
+            editTextfirst_name.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(M_NAME)) {
+            editTextmiddle_name.setError("Please enter middle name");
+            editTextmiddle_name.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(L_NAME)) {
+            editTextlast_name.setError("Please enter last name");
+            editTextlast_name.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(EMAIL)) {
+            editTextemail.setError("Please enter your email");
+            editTextemail.requestFocus();
+            return;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(EMAIL).matches()) {
+            editTextemail.setError("Enter a valid email");
+            editTextemail.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(PASSWORD)) {
+            editTextpassword.setError("Enter a password");
+            editTextpassword.requestFocus();
+            return;
+        }
+
+        if (!Patterns.PHONE.matcher(PHONE).matches()) {
+            editTextphone_no.setError("Enter a valid phone number");
+            editTextphone_no.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(PHONE)) {
+            editTextphone_no.setError("Enter a phone number");
+            editTextphone_no.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(ADDRESS)) {
+            editTextaddress.setError("Enter address");
+            editTextaddress.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(CITY)) {
+            editTextcity.setError("Enter city");
+            editTextcity.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(PINCODE)) {
+            editTextpincode.setError("Enter pincode");
+            editTextpincode.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(BIRTHDATE)) {
+            editTextbirthdate.setError("Enter birthdate");
+            editTextbirthdate.requestFocus();
+            return;
+        }
 
 //        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 //        progressBar.setVisibility(View.VISIBLE);
