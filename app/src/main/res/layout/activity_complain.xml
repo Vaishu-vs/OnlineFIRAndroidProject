@@ -173,6 +173,7 @@
             android:layout_marginBottom="10dp"
             android:background="@xml/input"
             android:ems="10"
+            android:imeOptions="actionDone"
             android:inputType="time"
             android:padding="10dp" />
 
@@ -182,7 +183,7 @@
             android:layout_height="wrap_content"
             android:background="@xml/button"
             android:textAllCaps="false"
-            android:textSize="10sp"
+            android:textSize="20sp"
             android:layout_marginBottom="30dp"
             android:text="@string/submitReport"
             android:textColor="@color/white" />

@@ -65,6 +65,7 @@
         android:layout_marginTop="10dp"
         android:background="@xml/input"
         android:ems="10"
+        android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"

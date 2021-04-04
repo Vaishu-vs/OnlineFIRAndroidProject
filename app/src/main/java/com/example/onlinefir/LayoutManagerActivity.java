@@ -2,6 +2,7 @@ package com.example.onlinefir;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
@@ -25,6 +26,8 @@ public class LayoutManagerActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("News"));
         tabLayout.addTab(tabLayout.newTab().setText("Complain"));
         tabLayout.addTab(tabLayout.newTab().setText("Status"));
+        tabLayout.setTabTextColors(ContextCompat.getColorStateList(this, R.color.white));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.black));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final MyAdapter adapter = new MyAdapter(this,getSupportFragmentManager(),
                 tabLayout.getTabCount());
@@ -56,11 +59,11 @@ public class LayoutManagerActivity extends AppCompatActivity {
             case R.id.add:;
                 return(true);
             case R.id.exit:
-                SharedPreferences sharedpreferences = getSharedPreferences(LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.clear();
-                editor.commit();
-                finish();
+//                SharedPreferences sharedpreferences = getSharedPreferences(LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedpreferences.edit();
+//                editor.clear();
+//                editor.commit();
+//                finish();
                 return(true);
         }
         return(super.onOptionsItemSelected(item));

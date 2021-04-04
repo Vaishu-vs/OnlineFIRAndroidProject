@@ -148,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String PINCODE = editTextpincode.getText().toString();
         String GENDER = radiobuttonGender.getText().toString();
         String BIRTHDATE = editTextbirthdate.getText().toString();
-
         //first we will do the validations
         if (TextUtils.isEmpty(F_NAME)) {
             editTextfirst_name.setError("Please enter first name");

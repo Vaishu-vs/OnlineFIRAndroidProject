@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText email;
     private EditText password;
+    private TextView tvSign;
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     public static final String MyPREFERENCES = "MyPrefs";
@@ -35,10 +37,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
+        tvSign = (TextView) findViewById(R.id.tvSign);
         Button login = (Button) findViewById(R.id.login);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         login.setOnClickListener(this);
+        tvSign.setOnClickListener(this);
     }
 
     @Override
@@ -57,6 +61,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     AddData(Email, Password);
                 }
+                break;
+            case R.id.tvSign:
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
                 break;
             default:
                 return;

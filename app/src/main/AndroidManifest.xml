@@ -18,7 +18,6 @@
         <activity
             android:name=".StatusActivity"
             tools:ignore="Instantiatable" />
-
         <meta-data
             android:name="android.webkit.WebView.EnableSafeBrowsing"
             android:value="false" />
