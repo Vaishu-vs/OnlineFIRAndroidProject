@@ -7,13 +7,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
-public class StatusActivity extends Fragment {
-    Button viewbtn;
-    EditText victimid;
-    TextView tview;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class StatusActivity extends Fragment implements View.OnClickListener{
+    private Button buttonViewFir;
+    private EditText edittextVictimId;
+    private ProgressBar progressBar;
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("COMPLAIN");
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -24,19 +36,36 @@ public class StatusActivity extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewbtn = (Button) view.findViewById(R.id.viewfir);
-        victimid = (EditText) view.findViewById(R.id.edittext_victimid);
-        tview = (TextView) view.findViewById(R.id.textfir);
-        Intent i = getActivity().getIntent();
+        buttonViewFir = (Button) view.findViewById(R.id.buttonViewFir);
+        edittextVictimId = (EditText) view.findViewById(R.id.edittextVictimId);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        buttonViewFir.setOnClickListener(this);
+    }
 
-        int id = i.getIntExtra("id", 0);
-        victimid.setText(String.valueOf(id));
-        view.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.submit:
+                viewComplain();
+                break;
+        }
+    }
+
+    private void viewComplain() {
+        progressBar.setVisibility(View.VISIBLE);
+        String victimId = edittextVictimId.getText().toString();
+        String currentuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        Map<String, Object> taskMap = new HashMap<>();
+        taskMap.put("Id", victimId);
+        taskMap.put("UID", currentuser);
+        // hide the progress bar
+        progressBar.setVisibility(View.GONE);
+        myRef.push().setValue(taskMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(), ShowStatusActivity.class);
-                i.putExtra("victimid", victimid.getText().toString());
-                startActivity(i);
+            public void onSuccess(Void aVoid) {
+                Intent intent = new Intent(getContext(), DisplayComplainActivity.class);
+                startActivity(intent);
             }
         });
     }

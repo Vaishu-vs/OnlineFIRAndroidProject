@@ -1,4 +1,7 @@
-package com.example.onlinefir;
+package com.example.onlinefir.admin;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,16 +18,15 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.example.onlinefir.LayoutManagerActivity;
+import com.example.onlinefir.MainActivity;
+import com.example.onlinefir.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class AdminLoginActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText email;
     private EditText password;
     private TextView tvSign;
@@ -35,12 +37,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String SPEmail = "emailKey";
     private static final String SPPassword = "passwordKey";
     private SharedPreferences sharedpreferences;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
+        setContentView(R.layout.activity_admin_login);
         email = (EditText) findViewById(R.id.editTextLoginEmail);
         password = (EditText) findViewById(R.id.editTextLoginpassword);
         tvSign = (TextView) findViewById(R.id.textViewSign);
@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     textviewAuthenticationFail.setVisibility(View.VISIBLE);
                     textviewAuthenticationFail.setTextColor(R.color.red);
                     textviewAuthenticationFail.setText("Authentication failed");
-                    Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminLoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -45,6 +45,8 @@ public class LayoutManagerActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+//        SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+//        String UserId = sharedPref.getString("firebasekey", "");
     }
 
     @Override
@@ -63,7 +65,7 @@ public class LayoutManagerActivity extends AppCompatActivity {
 //                SharedPreferences.Editor editor = sharedpreferences.edit();
 //                editor.clear();
 //                editor.commit();
-//                finish();
+                finish();
                 return(true);
         }
         return(super.onOptionsItemSelected(item));

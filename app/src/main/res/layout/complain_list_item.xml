@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/constrainComplainList"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/textViewComplainCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Missing"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/textViewUserName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Varsha"
+        android:textSize="17sp"
+        android:textColor="@color/black"
+        app:layout_constraintRight_toRightOf="@id/textViewComplainCategory"
+        app:layout_constraintLeft_toLeftOf="@id/textViewComplainCategory"
+        app:layout_constraintBottom_toTopOf="@id/textViewDate"
+        app:layout_constraintTop_toBottomOf="@id/textViewComplainCategory"/>
+
+    <TextView
+        android:id="@+id/textViewComplainStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filed Complain"
+        android:textSize="17sp"
+        android:gravity="left"
+        android:textColor="@color/black"
+        app:layout_constraintRight_toLeftOf="@+id/textViewDate"
+        app:layout_constraintLeft_toLeftOf="@+id/textViewUserName"
+        app:layout_constraintBottom_toTopOf="@id/textViewDate"
+        app:layout_constraintTop_toBottomOf="@id/textViewUserName"/>
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15/12/2021"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        app:layout_constraintRight_toRightOf="@+id/textViewUserName"
+        app:layout_constraintLeft_toRightOf="@+id/textViewComplainStatus"
+        app:layout_constraintTop_toBottomOf="@id/textViewUserName"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

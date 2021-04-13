@@ -2,6 +2,7 @@ package com.example.onlinefir;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -44,8 +46,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RadioButton radiobuttonGender;
     private RadioGroup radioGroupgender;
     private EditText editTextbirthdate;
+    private EditText editTextAdharCard;
     private Button signin, btnLogin;
     private ProgressBar progressBar;
+    private SharedPreferences sharedPref;
     Calendar calendar = Calendar.getInstance();
     int year = calendar.get(Calendar.YEAR);
     int month = calendar.get(Calendar.MONTH);
@@ -71,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextpincode = (EditText) findViewById(R.id.editTextpincode);
         radioGroupgender = (RadioGroup) findViewById(R.id.radioGroupgender);
         editTextbirthdate = (EditText) findViewById(R.id.editTextbirthdate);
+        editTextAdharCard = (EditText) findViewById(R.id.editTextAdharCard);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         int selectedInt = radioGroupgender.getCheckedRadioButtonId();
         radiobuttonGender = (RadioButton) findViewById(selectedInt);
@@ -107,13 +113,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.signin:
                 if (editTextpassword.getText().toString().length() < 5) {
                     editTextpassword.setError("Enter password having length more than 5 characters");
+                } else if (editTextphone_no.getText().toString().length() == 10) {
+                    editTextphone_no.setError("Enter valid phone no");
+                } else if (editTextpincode.getText().toString().length() == 6) {
+                    editTextpincode.setError("Enter valid pincode");
+                } else if (editTextpassword.getText().toString() != editTextcpassword.getText().toString()) {
+                    editTextpassword.setError("Password and confirm password must be same");
+                } else if(editTextfirst_name.getText().toString() == "" || editTextmiddle_name.getText().toString() == "" || editTextlast_name.getText().toString() == "" || editTextpassword.getText().toString() == "" || editTextbirthdate.getText().toString() == "" || editTextpincode.getText().toString() == "" || editTextcity.getText().toString() == "" || editTextaddress.getText().toString() == "" || editTextphone_no.getText().toString() == "" || editTextemail.getText().toString() == "" || editTextAdharCard.getText().toString() == "") {
+                    editTextfirst_name.setError("Please enter first name");
+                    editTextmiddle_name.setError("Please enter middle name");
+                    editTextlast_name.setError("Please enter last name");
+                    editTextemail.setError("Please enter your email");
+                    editTextpassword.setError("Enter a password");
+                    editTextphone_no.setError("Enter a phone number");
+                    editTextaddress.setError("Enter address");
+                    editTextcity.setError("Enter city");
+                    editTextpincode.setError("Enter pincode");
+                    editTextbirthdate.setError("Enter birthdate");
+                    editTextAdharCard.setError("Enter adhar card no.");
                 } else {
                     AddData();
                 }
+                break;
         }
     }
 
     public void AddData() {
+        progressBar.setVisibility(View.VISIBLE);
         String emailStr = editTextemail.getText().toString();
         String passwordStr = editTextpassword.getText().toString();
 
@@ -125,11 +151,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(MainActivity.this, "Generating Profile.",
                             Toast.LENGTH_SHORT).show();
                     pushData();
+                    // hide the progress bar
+                    progressBar.setVisibility(View.GONE);
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAG", "createUserWithEmail:failure", task.getException());
                     Toast.makeText(MainActivity.this, "Authentication failed.",
                             Toast.LENGTH_SHORT).show();
+                    // hide the progress bar
+                    progressBar.setVisibility(View.GONE);
                 }
             }
         });
@@ -148,81 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String PINCODE = editTextpincode.getText().toString();
         String GENDER = radiobuttonGender.getText().toString();
         String BIRTHDATE = editTextbirthdate.getText().toString();
-        //first we will do the validations
-        if (TextUtils.isEmpty(F_NAME)) {
-            editTextfirst_name.setError("Please enter first name");
-            editTextfirst_name.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(M_NAME)) {
-            editTextmiddle_name.setError("Please enter middle name");
-            editTextmiddle_name.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(L_NAME)) {
-            editTextlast_name.setError("Please enter last name");
-            editTextlast_name.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(EMAIL)) {
-            editTextemail.setError("Please enter your email");
-            editTextemail.requestFocus();
-            return;
-        }
-
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(EMAIL).matches()) {
-            editTextemail.setError("Enter a valid email");
-            editTextemail.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(PASSWORD)) {
-            editTextpassword.setError("Enter a password");
-            editTextpassword.requestFocus();
-            return;
-        }
-
-        if (!Patterns.PHONE.matcher(PHONE).matches()) {
-            editTextphone_no.setError("Enter a valid phone number");
-            editTextphone_no.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(PHONE)) {
-            editTextphone_no.setError("Enter a phone number");
-            editTextphone_no.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(ADDRESS)) {
-            editTextaddress.setError("Enter address");
-            editTextaddress.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(CITY)) {
-            editTextcity.setError("Enter city");
-            editTextcity.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(PINCODE)) {
-            editTextpincode.setError("Enter pincode");
-            editTextpincode.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(BIRTHDATE)) {
-            editTextbirthdate.setError("Enter birthdate");
-            editTextbirthdate.requestFocus();
-            return;
-        }
-
-//        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-//        progressBar.setVisibility(View.VISIBLE);
+        String ADHARCARD = editTextAdharCard.getText().toString();
 
         Map<String, Object> taskMap = new HashMap<>();
         taskMap.put("F_NAME", F_NAME);
@@ -236,8 +192,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         taskMap.put("PINCODE", PINCODE);
         taskMap.put("GENDER", GENDER);
         taskMap.put("BIRTHDATE", BIRTHDATE);
+        taskMap.put("ADHARCARD_NO", ADHARCARD);
         String currentuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-       // progressBar.setVisibility(View.GONE);
+        FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if (firebaseUser != null) {
+                    String userId = firebaseUser.getUid();
+                    String userEmail = firebaseUser.getEmail();
+                    sharedPref = getPreferences(MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("firebasekey", userId);
+                    editor.commit();
+                }
+            }
+        };
         myRef.child(currentuser).setValue(taskMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
