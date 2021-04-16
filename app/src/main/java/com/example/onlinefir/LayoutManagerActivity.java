@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LayoutManagerActivity extends AppCompatActivity {
     TabLayout tabLayout;
@@ -45,8 +47,6 @@ public class LayoutManagerActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-//        SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
-//        String UserId = sharedPref.getString("firebasekey", "");
     }
 
     @Override
@@ -58,13 +58,14 @@ public class LayoutManagerActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.add:;
+            case R.id.add:
+                return(true);
+            case R.id.detail:
+                Intent i = new Intent(LayoutManagerActivity.this, DetailActivity.class);
+                startActivity(i);
                 return(true);
             case R.id.exit:
-//                SharedPreferences sharedpreferences = getSharedPreferences(LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedpreferences.edit();
-//                editor.clear();
-//                editor.commit();
+                FirebaseAuth.getInstance().signOut();
                 finish();
                 return(true);
         }

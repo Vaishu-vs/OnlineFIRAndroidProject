@@ -1,39 +1,44 @@
-package com.example.onlinefir.admin;
+package com.example.onlinefir.complainStatus;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onlinefir.R;
+import com.example.onlinefir.admin.ComplainData;
 
 import java.util.List;
 
-public class ComplainAdapter extends RecyclerView.Adapter<ComplainAdapter.ViewHolder> {
+class MyComplainAdapter extends RecyclerView.Adapter<MyComplainAdapter.ViewHolder> {
     List<ComplainData> fetchData;
-
-    public ComplainAdapter(List<ComplainData> fetchData) {
+    Context context;
+    public MyComplainAdapter(List<ComplainData> fetchData) {
         this.fetchData = fetchData;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyComplainAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.complain_list_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        MyComplainAdapter.ViewHolder viewHolder = new MyComplainAdapter.ViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        ViewHolder viewHolder = (ViewHolder) holder;
+    public void onBindViewHolder(MyComplainAdapter.ViewHolder holder, int position) {
+        MyComplainAdapter.ViewHolder viewHolder = (MyComplainAdapter.ViewHolder) holder;
         ComplainData fetchDataList = fetchData.get(position);
-        viewHolder.textViewUserName.setText(fetchDataList.getUser_name());
+
+        viewHolder.textViewUserName.setText(fetchDataList.getEmail());
         viewHolder.textViewComplainCategory.setText(fetchDataList.getCategory());
         viewHolder.textViewDate.setText(fetchDataList.getDate_of_incident());
-        viewHolder.textViewComplainStatus.setText(fetchDataList.getEmail());
+        viewHolder.textViewComplainStatus.setText(fetchDataList.getStatus());
     }
 
 
@@ -48,6 +53,7 @@ public class ComplainAdapter extends RecyclerView.Adapter<ComplainAdapter.ViewHo
         public TextView textViewComplainStatus;
         public TextView textViewDate;
         public LinearLayout constraintLayout;
+
         public ViewHolder(View itemView) {
             super(itemView);
             this.textViewComplainCategory = itemView.findViewById(R.id.textViewComplainCategory);
@@ -55,6 +61,7 @@ public class ComplainAdapter extends RecyclerView.Adapter<ComplainAdapter.ViewHo
             this.textViewComplainStatus = itemView.findViewById(R.id.textViewComplainStatus);
             this.textViewDate = itemView.findViewById(R.id.textViewDate);
             constraintLayout = itemView.findViewById(R.id.constrainComplainList);
+
         }
     }
 }

@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
+    android:padding="15dp"
     tools:context=".ComplainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
 
@@ -20,7 +20,7 @@
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:text="@string/complain"
-            android:textColor="@color/blue_500"
+            android:textColor="@color/purple_500"
             android:textSize="25sp" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@xml/input"
-            android:ems="10"
+            android:hint="Enter Name"
             android:inputType="text"
             android:padding="10dp" />
 
@@ -52,8 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:hint="Enter Email"
             android:background="@xml/input"
-            android:ems="10"
             android:inputType="textEmailAddress"
             android:padding="10dp" />
 
@@ -69,8 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:hint="Enter Near By Police Station"
             android:background="@xml/input"
-            android:ems="10"
             android:inputType="text"
             android:padding="10dp" />
 
@@ -86,9 +86,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:hint="Enter Crime Spot"
             android:background="@xml/input"
-            android:ems="10"
-            android:lines="5"
+            android:lines="3"
             android:inputType="textMultiLine"
             android:padding="10dp" />
 
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@xml/input"
-            android:ems="10"
+            android:hint="Enter Crime Spot Pincode"
             android:inputType="number"
             android:padding="10dp" />
 
@@ -122,8 +122,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@xml/input"
+            android:hint="Enter Description Related to Crime"
             android:inputType="textMultiLine"
-            android:lines="5"
+            android:lines="3"
             android:padding="10dp" />
 
         <TextView
@@ -139,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@xml/input"
-            android:ems="10"
+            android:hint="Enter Crime Category"
             android:inputType="text"
             android:padding="10dp" />
 
@@ -156,7 +157,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@xml/input"
-            android:ems="10"
+            android:hint="Enter Date"
             android:inputType="date"
             android:padding="10dp" />
 
@@ -173,10 +174,18 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@xml/input"
-            android:ems="10"
             android:imeOptions="actionDone"
+            android:hint="Enter TIme"
             android:inputType="time"
             android:padding="10dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:indeterminateTint="@color/progressColor"
+            android:layout_marginLeft="150dp"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/submit"
@@ -189,13 +198,5 @@
             android:text="@string/submitReport"
             android:textColor="@color/white" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:backgroundTint="@color/editText"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>

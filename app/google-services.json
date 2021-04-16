@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "700402038186",
+    "firebase_url": "https://onlinefir-2a178-default-rtdb.firebaseio.com",
+    "project_id": "onlinefir-2a178",
+    "storage_bucket": "onlinefir-2a178.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700402038186:android:31aafd443eec7ff4c927d3",
+        "android_client_info": {
+          "package_name": "com.example.onlinefir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "700402038186-ogsaoggpc53go4gi90of5qdo2q2fcijf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1oRbY-J_pwUpQERTnlKtFIUz27wCdGaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700402038186-ogsaoggpc53go4gi90of5qdo2q2fcijf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

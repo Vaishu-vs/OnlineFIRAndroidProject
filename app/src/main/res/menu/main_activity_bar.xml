@@ -6,8 +6,12 @@
         app:showAsAction="always"
         android:title="" />
     <item
+        android:id="@+id/detail"
+        app:showAsAction="never"
+        android:title="More">
+    </item>
+    <item
         android:id="@+id/exit"
         app:showAsAction="never"
-        android:title="@string/exit">
-    </item>
+        android:title="@string/exit" />
 </menu>

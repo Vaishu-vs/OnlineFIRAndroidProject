@@ -21,7 +21,7 @@ public class NewsActivity extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        WebView mywebview = (WebView) view.findViewById(R.id.webview);
+        WebView mywebview = view.findViewById(R.id.webview);
         mywebview.loadUrl("https://www.indiatoday.in/crime");
         mywebview.getSettings().setJavaScriptEnabled(true);
         mywebview.setWebViewClient(new NewsActivityClient());

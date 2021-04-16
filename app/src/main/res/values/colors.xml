@@ -10,5 +10,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="editText">#39474E</color>
     <color name="red">#FF0000</color>
+    <color name="progressColor">#909090</color>
 
 </resources>

@@ -1,8 +1,11 @@
-package com.example.onlinefir.admin;
+package com.example.onlinefir;
 
 import com.google.firebase.database.PropertyName;
 
-public class ComplainData {
+import java.io.Serializable;
+
+public class ComplainId implements Serializable {
+    String victimId;
     String User_name;
     String Email;
     String Crime_spot;
@@ -14,7 +17,8 @@ public class ComplainData {
     String Status;
     String currentuser;
 
-    public ComplainData() {
+    public ComplainId() {
+        victimId = "";
         User_name = "";
         Email = "";
         Crime_spot = "";
@@ -26,8 +30,7 @@ public class ComplainData {
         currentuser = "";
         Status = "";
     }
-
-    public ComplainData(String User_name, String Email, String Crime_spot, String Pincode, String Description, String Category, String Date_of_incident, String Time_of_incident, String currentuser, String Status) {
+    public ComplainId(String User_name, String Email, String Crime_spot, String Pincode, String Description, String Category, String Date_of_incident, String Time_of_incident, String currentuser, String Status) {
         this.User_name = User_name;
         this.Email = Email;
         this.Crime_spot = Crime_spot;
@@ -38,6 +41,15 @@ public class ComplainData {
         this.Time_of_incident = Time_of_incident;
         this.currentuser = currentuser;
         this.Status = Status;
+    }
+
+    public ComplainId(String victimId) {
+        this.victimId = victimId;
+    }
+
+    @PropertyName("victimId")
+    public String getVictimId() {
+        return victimId;
     }
 
     @PropertyName("User_name")
@@ -84,6 +96,7 @@ public class ComplainData {
     public String getCurrentuser() {
         return currentuser;
     }
+
     @PropertyName("Status")
     public String getStatus() {
         return Status;

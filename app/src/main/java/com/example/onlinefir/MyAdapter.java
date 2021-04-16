@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.onlinefir.complainStatus.MyComplainActivity;
+
 public class MyAdapter extends FragmentPagerAdapter {
     Context context;
     int totalTabs;
@@ -23,7 +25,7 @@ public class MyAdapter extends FragmentPagerAdapter {
                 ComplainActivity complainFragment = new ComplainActivity();
                 return complainFragment;
             case 2:
-                StatusActivity statusFragment = new StatusActivity();
+                MyComplainActivity statusFragment = new MyComplainActivity();
                 return statusFragment;
             default:
                 return null;

@@ -23,37 +23,35 @@ public class DisplayComplainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_complain);
-        textViewId = (TextView) findViewById(R.id.textViewId);
-        textViewUsername = (TextView) findViewById(R.id.textViewUsername);
-        textViewEmail = (TextView) findViewById(R.id.textViewEmail);
-        textViewCrimeSpot = (TextView) findViewById(R.id.textViewCrimeSpot);
-        textViewPincode = (TextView) findViewById(R.id.textViewPincode);
-        textViewDescription = (TextView) findViewById(R.id.textViewDescription);
-        textViewCategory = (TextView) findViewById(R.id.textViewCategory);
-        textViewDateofIncident = (TextView) findViewById(R.id.textViewDateofIncident);
-        textViewTimeofIncident = (TextView) findViewById(R.id.textViewTimeofIncident);
-        textViewStatus = (TextView) findViewById(R.id.textViewStatus);
-        buttonBack = (Button) findViewById(R.id.buttonBack);
-
+        textViewId = findViewById(R.id.textViewId);
+        textViewUsername = findViewById(R.id.textViewUsername);
+        textViewEmail = findViewById(R.id.textViewEmail);
+        textViewCrimeSpot = findViewById(R.id.textViewCrimeSpot);
+        textViewPincode = findViewById(R.id.textViewPincode);
+        textViewDescription = findViewById(R.id.textViewDescription);
+        textViewCategory = findViewById(R.id.textViewCategory);
+        textViewDateofIncident = findViewById(R.id.textViewDateofIncident);
+        textViewTimeofIncident = findViewById(R.id.textViewTimeofIncident);
+        textViewStatus = findViewById(R.id.textViewStatus);
+        buttonBack = findViewById(R.id.buttonBack);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        Intent intent = getIntent();
-        String userid = intent.getStringExtra("userid");
-        final DatabaseReference table_user = database.getReference().child("COMPLAIN").child(userid);
+        final DatabaseReference table_user = database.getReference().child("COMPLAIN");
         table_user.keepSynced(true);
         table_user.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        String User_name = ds.child("User_name").getValue().toString();
-                        String Email = ds.child("Email").getValue().toString();
-                        String Crime_spot = ds.child("Crime_spot").getValue().toString();
-                        String Pincode = ds.child("Pincode").getValue().toString();
-                        String Description = ds.child("Description").getValue().toString();
-                        String Category = ds.child("Category").getValue().toString();
-                        String Date_of_incident = ds.child("Date_of_incident").getValue().toString();
-                        String Time_of_incident = ds.child("Time_of_incident").getValue().toString();
-                        String currentuser = ds.child("currentuser").getValue().toString();
+                        Complain complain = ds.getValue(Complain.class);
+                        String User_name = complain.getUser_name();
+                        String Email = complain.getEmail();
+                        String Crime_spot = complain.getCrime_spot();
+                        String Pincode = complain.getPincode();
+                        String Description = complain.getDescription();
+                        String Category = complain.getCategory();
+                        String Date_of_incident = complain.getDate_of_incident();
+                        String Time_of_incident = complain.getTime_of_incident();
+                        String currentuser = complain.getCurrentuser();
 
                         textViewUsername.setText(User_name);
                         textViewEmail.setText(Email);

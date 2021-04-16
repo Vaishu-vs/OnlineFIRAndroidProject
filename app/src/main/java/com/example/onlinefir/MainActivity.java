@@ -2,11 +2,8 @@ package com.example.onlinefir;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -14,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -47,9 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RadioGroup radioGroupgender;
     private EditText editTextbirthdate;
     private EditText editTextAdharCard;
-    private Button signin, btnLogin;
+    private Button signin;
+    private TextView btnLogin;
     private ProgressBar progressBar;
-    private SharedPreferences sharedPref;
     Calendar calendar = Calendar.getInstance();
     int year = calendar.get(Calendar.YEAR);
     int month = calendar.get(Calendar.MONTH);
@@ -63,33 +61,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editTextfirst_name = (EditText) findViewById(R.id.editTextfirst_name);
-        editTextmiddle_name = (EditText) findViewById(R.id.editTextmiddle_name);
-        editTextlast_name = (EditText) findViewById(R.id.editTextlast_name);
-        editTextemail = (EditText) findViewById(R.id.editTextemail);
-        editTextpassword = (EditText) findViewById(R.id.editTextpassword);
-        editTextcpassword = (EditText) findViewById(R.id.editTextcpassword);
-        editTextphone_no = (EditText) findViewById(R.id.editTextphone_no);
-        editTextaddress = (EditText) findViewById(R.id.editTextaddress);
-        editTextcity = (EditText) findViewById(R.id.editTextcity);
-        editTextpincode = (EditText) findViewById(R.id.editTextpincode);
-        radioGroupgender = (RadioGroup) findViewById(R.id.radioGroupgender);
-        editTextbirthdate = (EditText) findViewById(R.id.editTextbirthdate);
-        editTextAdharCard = (EditText) findViewById(R.id.editTextAdharCard);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        if (mAuth.getCurrentUser() != null) {
+
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+        }
+
+        editTextfirst_name = findViewById(R.id.editTextfirst_name);
+        editTextmiddle_name = findViewById(R.id.editTextmiddle_name);
+        editTextlast_name = findViewById(R.id.editTextlast_name);
+        editTextemail = findViewById(R.id.editTextemail);
+        editTextpassword = findViewById(R.id.editTextpassword);
+        editTextcpassword = findViewById(R.id.editTextcpassword);
+        editTextphone_no = findViewById(R.id.editTextphone_no);
+        editTextaddress =  findViewById(R.id.editTextaddress);
+        editTextcity = findViewById(R.id.editTextcity);
+        editTextpincode = findViewById(R.id.editTextpincode);
+        radioGroupgender = findViewById(R.id.radioGroupgender);
+        editTextbirthdate = findViewById(R.id.editTextbirthdate);
+        editTextAdharCard = findViewById(R.id.editTextAdharCard);
+        progressBar = findViewById(R.id.progressBar);
 
         int selectedInt = radioGroupgender.getCheckedRadioButtonId();
-        radiobuttonGender = (RadioButton) findViewById(selectedInt);
-        signin = (Button) findViewById(R.id.signin);
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("PROFILE");
+        radiobuttonGender =  findViewById(selectedInt);
+        signin = findViewById(R.id.signin);
+        btnLogin = findViewById(R.id.btnLogin);
 
         editTextbirthdate.setOnClickListener(this);
         signin.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
     }
+
 
     //Button Click Listener
     @Override
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 datePickerDialog.show();
                 break;
             case R.id.btnLogin:
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
                 break;
             case R.id.signin:
@@ -201,17 +203,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (firebaseUser != null) {
                     String userId = firebaseUser.getUid();
                     String userEmail = firebaseUser.getEmail();
-                    sharedPref = getPreferences(MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString("firebasekey", userId);
-                    editor.commit();
                 }
             }
         };
         myRef.child(currentuser).setValue(taskMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });

@@ -1,15 +1,21 @@
 package com.example.onlinefir;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -19,15 +25,24 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ComplainActivity extends Fragment implements View.OnClickListener {
     private EditText user_name;
@@ -44,7 +59,8 @@ public class ComplainActivity extends Fragment implements View.OnClickListener {
     int year = calendar.get(Calendar.YEAR);
     int month = calendar.get(Calendar.MONTH);
     int day = calendar.get(Calendar.DAY_OF_MONTH);
-    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    String pattern = "[1-9][0-9]{6}";
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("COMPLAIN");
 
@@ -56,16 +72,18 @@ public class ComplainActivity extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        user_name = (EditText) view.findViewById(R.id.editTextuser_name);
-        email = (EditText) view.findViewById(R.id.editTextemail);
-        crime_spot = (EditText) view.findViewById(R.id.editTextcrime_spot);
-        pincode = (EditText) view.findViewById(R.id.editTextpincode);
-        description = (EditText) view.findViewById(R.id.editTextdescription);
-        category = (EditText) view.findViewById(R.id.editTextcategory);
-        date_of_incident = (EditText) view.findViewById(R.id.editTextdate_of_incident);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        time_of_incident = (EditText) view.findViewById(R.id.editTexttime_of_incident);
-        submit = (Button) view.findViewById(R.id.submit);
+        user_name = view.findViewById(R.id.editTextuser_name);
+        email = view.findViewById(R.id.editTextemail);
+        crime_spot = view.findViewById(R.id.editTextcrime_spot);
+        pincode = view.findViewById(R.id.editTextpincode);
+        description = view.findViewById(R.id.editTextdescription);
+        category = view.findViewById(R.id.editTextcategory);
+        date_of_incident = view.findViewById(R.id.editTextdate_of_incident);
+        progressBar = view.findViewById(R.id.progressBar);
+        time_of_incident = view.findViewById(R.id.editTexttime_of_incident);
+
+        submit = view.findViewById(R.id.submit);
+
 
         date_of_incident.setOnClickListener(this);
         time_of_incident.setOnClickListener(this);
@@ -76,7 +94,7 @@ public class ComplainActivity extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit:
-                if (pincode.getText().toString().length() == 6) {
+                if (pincode.getText().toString() == pattern) {
                     pincode.setError("Enter valid pincode");
                 } else if (user_name.getText().toString() == "" || email.getText().toString() == "" || crime_spot.getText().toString() == "" || pincode.getText().toString() == "" || description.getText().toString() == "" || category.getText().toString() == "" || date_of_incident.getText().toString() == "" || time_of_incident.getText().toString() == "") {
                     user_name.setError("Please enter first name");
@@ -117,6 +135,7 @@ public class ComplainActivity extends Fragment implements View.OnClickListener {
                 datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 datePickerDialog.show();
                 break;
+//
         }
     }
 
@@ -130,6 +149,8 @@ public class ComplainActivity extends Fragment implements View.OnClickListener {
         String Category = category.getText().toString();
         String Date_of_incident = date_of_incident.getText().toString();
         String Time_of_incident = time_of_incident.getText().toString();
+
+        String Status = "Complain Field";
         String currentuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         Map<String, Object> taskMap = new HashMap<>();
@@ -141,22 +162,24 @@ public class ComplainActivity extends Fragment implements View.OnClickListener {
         taskMap.put("Category", Category);
         taskMap.put("Date_of_incident", Date_of_incident);
         taskMap.put("Time_of_incident", Time_of_incident);
+        taskMap.put("Status", Status);
         taskMap.put("UID", currentuser);
         // hide the progress bar
         progressBar.setVisibility(View.GONE);
-        DatabaseReference newChildRef = myRef.push();
-        String key = newChildRef.getKey();
-                newChildRef.setValue(taskMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()) {
-                            Intent intent = new Intent(getContext(), DisplayComplainActivity.class);
-                            intent.putExtra("userid", key);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(getContext(), "Error.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        String newChildRef = myRef.push().getKey();
+
+        Complain complain = new Complain(User_name, Email, Crime_spot, Pincode, Description, Category, Date_of_incident, Time_of_incident, currentuser);
+        myRef.child(newChildRef).setValue(complain).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(getContext(), DisplayComplainActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getContext(), "Error.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
+
 }
