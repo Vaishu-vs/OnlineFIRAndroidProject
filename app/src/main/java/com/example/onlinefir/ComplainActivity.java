@@ -151,6 +151,9 @@ public class ComplainActivity extends Fragment implements View.OnClickListener {
         String Time_of_incident = time_of_incident.getText().toString();
 
         String Status = "Complain Field";
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(Email).matches()) {
+            email.setError("Enter valid email");
+        }
         String currentuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         Map<String, Object> taskMap = new HashMap<>();
@@ -165,10 +168,11 @@ public class ComplainActivity extends Fragment implements View.OnClickListener {
         taskMap.put("Status", Status);
         taskMap.put("UID", currentuser);
         // hide the progress bar
+        Complain complain = new Complain(User_name, Email, Crime_spot, Pincode, Description, Category, Date_of_incident, Time_of_incident, currentuser, Status);
+
         progressBar.setVisibility(View.GONE);
         String newChildRef = myRef.push().getKey();
 
-        Complain complain = new Complain(User_name, Email, Crime_spot, Pincode, Description, Category, Date_of_incident, Time_of_incident, currentuser);
         myRef.child(newChildRef).setValue(complain).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

@@ -44,12 +44,6 @@ public class AddAdminActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_admin);
 
-//        if (mAuth.getCurrentUser() != null) {
-//
-//            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-//            finish();
-//        }
-
         editTextPoliceStationName = findViewById(R.id.editTextPoliceStationName);
         editTextAdminEmail = findViewById(R.id.editTextAdminEmail);
         editTextAdminpassword = findViewById(R.id.editTextAdminpassword);
@@ -109,13 +103,15 @@ public class AddAdminActivity extends AppCompatActivity implements View.OnClickL
 
     private void pushData() {
         String POLICE_STATION = editTextPoliceStationName.getText().toString();
-        String ADMIN_NAME = editTextAdminEmail.getText().toString();
+        String ADMIN_EMAIL = editTextAdminEmail.getText().toString();
         String PASSWORD = editTextAdminpassword.getText().toString();
-
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(ADMIN_EMAIL).matches()) {
+            editTextAdminEmail.setError("Enter valid email");
+        }
 
         Map<String, Object> taskMap = new HashMap<>();
         taskMap.put("POLICE_STATION", POLICE_STATION);
-        taskMap.put("ADMIN_NAME", ADMIN_NAME);
+        taskMap.put("ADMIN_EMAIL", ADMIN_EMAIL);
         taskMap.put("PASSWORD", PASSWORD);
         String currentuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
@@ -123,8 +119,7 @@ public class AddAdminActivity extends AppCompatActivity implements View.OnClickL
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
-                    String userId = firebaseUser.getUid();
-                    String userEmail = firebaseUser.getEmail();
+
                 }
             }
         };

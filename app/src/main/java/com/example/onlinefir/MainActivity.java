@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("PROFILE");
+
+    String picodepattern = "[1-9][0-9]{6}";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,11 +118,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.signin:
                 if (editTextpassword.getText().toString().length() < 5) {
                     editTextpassword.setError("Enter password having length more than 5 characters");
-                } else if (editTextphone_no.getText().toString().length() == 10) {
-                    editTextphone_no.setError("Enter valid phone no");
-                } else if (editTextpincode.getText().toString().length() == 6) {
+                } else if (editTextpincode.getText().toString() == picodepattern) {
                     editTextpincode.setError("Enter valid pincode");
-                } else if (editTextpassword.getText().toString() != editTextcpassword.getText().toString()) {
+                } else if (editTextpassword.getText().toString() == editTextcpassword.getText().toString()) {
                     editTextpassword.setError("Password and confirm password must be same");
                 } else if(editTextfirst_name.getText().toString() == "" || editTextmiddle_name.getText().toString() == "" || editTextlast_name.getText().toString() == "" || editTextpassword.getText().toString() == "" || editTextbirthdate.getText().toString() == "" || editTextpincode.getText().toString() == "" || editTextcity.getText().toString() == "" || editTextaddress.getText().toString() == "" || editTextphone_no.getText().toString() == "" || editTextemail.getText().toString() == "" || editTextAdharCard.getText().toString() == "") {
                     editTextfirst_name.setError("Please enter first name");
@@ -182,6 +183,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String BIRTHDATE = editTextbirthdate.getText().toString();
         String ADHARCARD = editTextAdharCard.getText().toString();
 
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(EMAIL).matches()) {
+            editTextemail.setError("Enter valid email");
+        }
+
+        if (!Patterns.PHONE.matcher(PHONE).matches()) {
+            editTextphone_no.setError("Enter valid phone no.");
+        }
+
         Map<String, Object> taskMap = new HashMap<>();
         taskMap.put("F_NAME", F_NAME);
         taskMap.put("M_NAME", M_NAME);
@@ -206,11 +215,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         };
-        myRef.child(currentuser).setValue(taskMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+//        myRef.child(currentuser).setValue(taskMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+
+        myRef.child(currentuser).setValue(taskMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(MainActivity.this, DisplayComplainActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

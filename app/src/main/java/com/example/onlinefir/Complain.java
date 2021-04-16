@@ -14,6 +14,7 @@ public class Complain implements Serializable {
     String Date_of_incident;
     String Time_of_incident;
     String currentuser;
+    String Status;
 
     public Complain() {
         User_name = "";
@@ -25,9 +26,10 @@ public class Complain implements Serializable {
         Date_of_incident = "";
         Time_of_incident = "";
         currentuser = "";
+        Status = "";
     }
 
-    public Complain(String User_name, String Email, String Crime_spot, String Pincode, String Description, String Category, String Date_of_incident, String Time_of_incident, String currentuser) {
+    public Complain(String User_name, String Email, String Crime_spot, String Pincode, String Description, String Category, String Date_of_incident, String Time_of_incident, String currentuser, String Status) {
         this.User_name = User_name;
         this.Email = Email;
         this.Crime_spot = Crime_spot;
@@ -37,7 +39,10 @@ public class Complain implements Serializable {
         this.Date_of_incident = Date_of_incident;
         this.Time_of_incident = Time_of_incident;
         this.currentuser = currentuser;
+        this.Status = Status;
     }
+
+
 
     @PropertyName("User_name")
     public String getUser_name() {
@@ -82,5 +87,9 @@ public class Complain implements Serializable {
     @PropertyName("currentuser")
     public String getCurrentuser() {
         return currentuser;
+    }
+    @PropertyName("Status")
+    public String getStatus() {
+        return Status;
     }
 }

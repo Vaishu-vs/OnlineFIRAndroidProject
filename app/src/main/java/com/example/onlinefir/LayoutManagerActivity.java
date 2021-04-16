@@ -66,7 +66,8 @@ public class LayoutManagerActivity extends AppCompatActivity {
                 return(true);
             case R.id.exit:
                 FirebaseAuth.getInstance().signOut();
-                finish();
+                Intent iW = new Intent(LayoutManagerActivity.this, MainActivity.class);
+                startActivity(iW);
                 return(true);
         }
         return(super.onOptionsItemSelected(item));

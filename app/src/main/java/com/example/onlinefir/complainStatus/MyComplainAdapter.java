@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.onlinefir.DetailActivity;
 import com.example.onlinefir.R;
 import com.example.onlinefir.admin.ComplainData;
 
@@ -39,6 +40,15 @@ class MyComplainAdapter extends RecyclerView.Adapter<MyComplainAdapter.ViewHolde
         viewHolder.textViewComplainCategory.setText(fetchDataList.getCategory());
         viewHolder.textViewDate.setText(fetchDataList.getDate_of_incident());
         viewHolder.textViewComplainStatus.setText(fetchDataList.getStatus());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context.getApplicationContext(), DetailActivity.class);
+                i.putExtra("uid", fetchDataList.getCurrentuser());
+                context.startActivity(i);
+            }
+        });
     }
 
 

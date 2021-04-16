@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.onlinefir.admin.AddAdminActivity;
 import com.example.onlinefir.admin.ViewComplainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,10 +37,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ProgressBar progressBar;
     private TextView textviewAuthenticationFail;
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private static final String MyPREFERENCES = "MyPrefs";
-    private static final String SPEmail = "emailKey";
-    private static final String SPPassword = "passwordKey";
-    private SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +97,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             case R.id.textViewAdminPanel:
-                Intent intents = new Intent(LoginActivity.this, ViewComplainActivity.class);
+                Intent intents = new Intent(LoginActivity.this, AddAdminActivity.class);
                 startActivity(intents);
                 break;
             default:

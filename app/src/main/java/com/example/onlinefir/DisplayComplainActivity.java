@@ -23,6 +23,7 @@ public class DisplayComplainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_complain);
+
         textViewId = findViewById(R.id.textViewId);
         textViewUsername = findViewById(R.id.textViewUsername);
         textViewEmail = findViewById(R.id.textViewEmail);
@@ -34,6 +35,7 @@ public class DisplayComplainActivity extends AppCompatActivity {
         textViewTimeofIncident = findViewById(R.id.textViewTimeofIncident);
         textViewStatus = findViewById(R.id.textViewStatus);
         buttonBack = findViewById(R.id.buttonBack);
+      //  String s = getIntent().getStringExtra("uid");
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference().child("COMPLAIN");
         table_user.keepSynced(true);
@@ -52,6 +54,7 @@ public class DisplayComplainActivity extends AppCompatActivity {
                         String Date_of_incident = complain.getDate_of_incident();
                         String Time_of_incident = complain.getTime_of_incident();
                         String currentuser = complain.getCurrentuser();
+                        String Status = complain.getStatus();
 
                         textViewUsername.setText(User_name);
                         textViewEmail.setText(Email);
@@ -62,6 +65,7 @@ public class DisplayComplainActivity extends AppCompatActivity {
                         textViewDateofIncident.setText(Date_of_incident);
                         textViewTimeofIncident.setText(Time_of_incident);
                         textViewId.setText(currentuser);
+                        textViewStatus.setText(Status);
                     }
                 }  else {
                     Toast.makeText(DisplayComplainActivity.this, "Error.", Toast.LENGTH_SHORT).show();

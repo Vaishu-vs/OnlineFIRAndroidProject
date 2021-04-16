@@ -36,7 +36,7 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
     private static final String MyPREFERENCES = "MyPrefs";
     private static final String SPEmail = "emailKey";
     private static final String SPPassword = "passwordKey";
-    private SharedPreferences sharedpreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,16 +48,16 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         CheckBox checkboxShowPassword = (CheckBox) findViewById(R.id.checkboxShowPassword);
         Button login = (Button) findViewById(R.id.buttonLogin);
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
         checkboxShowPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (!isChecked) {
                     // show password
-                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 } else {
                     // hide password
-                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }
             }
         });
@@ -70,18 +70,16 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         String Email = email.getText().toString();
         String Password = password.getText().toString();
-
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString(SPEmail, Email);
-        editor.putString(SPPassword, Password);
-        editor.commit();
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(Email).matches()) {
+            email.setError("Enter valid email");
+        }
         switch (v.getId()) {
             case R.id.buttonLogin:
-                if (password.getText().toString().length() < 5) {
-                    password.setError("Enter password having length more than 5 characters");
-                } else if (email.getText().toString() == "" || password.getText().toString() == "") {
+                if (email.getText().toString() == "" || password.getText().toString() == "") {
                     email.setError("Please enter your email");
                     password.setError("Enter a password");
+                } else if (password.getText().toString().length() < 5) {
+                    password.setError("Enter password having length more than 5 characters");
                 } else {
                     AddData(Email, Password);
                 }
