@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.onlinefir.LayoutManagerActivity;
+import com.example.onlinefir.LoginActivity;
 import com.example.onlinefir.MainActivity;
 import com.example.onlinefir.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,14 +34,17 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
     private ProgressBar progressBar;
     private TextView textviewAuthenticationFail;
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private static final String MyPREFERENCES = "MyPrefs";
-    private static final String SPEmail = "emailKey";
-    private static final String SPPassword = "passwordKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_login);
+
+        if (mAuth.getCurrentUser() != null) {
+            // User is logged in
+            startActivity(new Intent(AdminLoginActivity.this, AdminLayoutActivity.class));
+            finish();
+        }
         email = (EditText) findViewById(R.id.editTextLoginEmail);
         password = (EditText) findViewById(R.id.editTextLoginpassword);
         tvSign = (TextView) findViewById(R.id.textViewSign);
@@ -85,7 +89,8 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
                 }
                 break;
             case R.id.textViewSign:
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ViewComplainActivity.class);
+
                 startActivity(intent);
                 break;
             default:
@@ -103,7 +108,7 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
                     // Sign in success, update UI with the signed-in user's information
                     // hide the progress bar
                     progressBar.setVisibility(View.GONE);
-                    Intent intent = new Intent(getApplicationContext(), LayoutManagerActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), AdminLayoutActivity.class);
                     startActivity(intent);
                 } else {
                     // If sign in fails, display a message to the user.

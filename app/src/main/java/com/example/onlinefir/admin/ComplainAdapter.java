@@ -1,5 +1,7 @@
 package com.example.onlinefir.admin;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +11,16 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onlinefir.R;
+import com.example.onlinefir.complainStatus.DisplayInListActivity;
 
 import java.util.List;
 
 public class ComplainAdapter extends RecyclerView.Adapter<ComplainAdapter.ViewHolder> {
     List<ComplainData> fetchData;
-
-    public ComplainAdapter(List<ComplainData> fetchData) {
+    Context context;
+    public ComplainAdapter(List<ComplainData> fetchData, Context context) {
         this.fetchData = fetchData;
+        this.context = context;
     }
 
     @Override
@@ -34,6 +38,14 @@ public class ComplainAdapter extends RecyclerView.Adapter<ComplainAdapter.ViewHo
         viewHolder.textViewComplainCategory.setText(fetchDataList.getCategory());
         viewHolder.textViewDate.setText(fetchDataList.getDate_of_incident());
         viewHolder.textViewComplainStatus.setText(fetchDataList.getEmail());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, DisplayInListActivity.class);
+                i.putExtra("uid", fetchDataList.getKey());
+                context.startActivity(i);
+            }
+        });
     }
 
 

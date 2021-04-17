@@ -1,15 +1,16 @@
 package com.example.onlinefir.admin;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onlinefir.R;
 import com.google.firebase.database.DataSnapshot;
@@ -21,18 +22,18 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewComplainActivity extends Fragment {
+public class AdminUserActivity extends Fragment {
 
     DatabaseReference databaseReference;
-    ComplainAdapter myAdapter;
-    List<ComplainData> fetchData;
+    UserAdapter myAdapter;
+    List<UserData> fetchData;
     private RecyclerView recyclerViewMyComplain;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_view_complain, container, false);
+        View view = inflater.inflate(R.layout.activity_admin_user, container, false);
 
         // Add the following lines to create RecyclerView
-        recyclerViewMyComplain = view.findViewById(R.id.recyclerViewas);
+        recyclerViewMyComplain = view.findViewById(R.id.recyclerViewasdf);
         recyclerViewMyComplain.setLayoutManager(new LinearLayoutManager(view.getContext()));
         return view;
     }
@@ -42,16 +43,16 @@ public class ViewComplainActivity extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         fetchData = new ArrayList<>();
-        databaseReference = FirebaseDatabase.getInstance().getReference("COMPLAIN");
+        databaseReference = FirebaseDatabase.getInstance().getReference("PROFILE");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    ComplainData data = ds.getValue(ComplainData.class);
-                    data.setKey(ds.getKey());
+                    UserData data = ds.getValue(UserData.class);
+                    //data.setKey(ds.getKey());
                     fetchData.add(data);
                 }
-                myAdapter = new ComplainAdapter(fetchData, getActivity());
+                myAdapter = new UserAdapter(fetchData, getActivity());
                 recyclerViewMyComplain.setAdapter(myAdapter);
             }
 

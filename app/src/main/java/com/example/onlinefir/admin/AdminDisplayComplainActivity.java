@@ -1,41 +1,31 @@
-package com.example.onlinefir.complainStatus;
+package com.example.onlinefir.admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.onlinefir.Complain;
-import com.example.onlinefir.DisplayComplainActivity;
 import com.example.onlinefir.LayoutManagerActivity;
 import com.example.onlinefir.R;
+import com.example.onlinefir.complainStatus.DisplayInListActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
-public class DisplayInListActivity extends AppCompatActivity {
-
+public class AdminDisplayComplainActivity extends AppCompatActivity {
     private TextView textViewId, textViewUsername, textViewEmail, textViewCrimeSpot, textViewPincode, textViewDescription, textViewCategory, textViewDateofIncident, textViewTimeofIncident, textViewStatus;
     Button buttonBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_in_list);
-
+        setContentView(R.layout.activity_admin_display_complain);
         textViewId = findViewById(R.id.textViewId);
         textViewUsername = findViewById(R.id.textViewUsername);
         textViewEmail = findViewById(R.id.textViewEmail);
@@ -77,19 +67,19 @@ public class DisplayInListActivity extends AppCompatActivity {
                     textViewId.setText(currentuser);
                     textViewStatus.setText(Status);
                 }  else {
-                    Toast.makeText(DisplayInListActivity.this, "Error.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminDisplayComplainActivity.this, "Error.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DisplayInListActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminDisplayComplainActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
             }
         });
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DisplayInListActivity.this, LayoutManagerActivity.class);
+                Intent intent = new Intent(AdminDisplayComplainActivity.this, AdminLayoutActivity.class);
                 startActivity(intent);
             }
         });

@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.onlinefir.admin.AddAdminActivity;
+import com.example.onlinefir.admin.AdminLoginActivity;
 import com.example.onlinefir.admin.ViewComplainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -97,7 +98,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             case R.id.textViewAdminPanel:
-                Intent intents = new Intent(LoginActivity.this, AddAdminActivity.class);
+                Intent intents = new Intent(LoginActivity.this, AdminLoginActivity.class);
                 startActivity(intents);
                 break;
             default:

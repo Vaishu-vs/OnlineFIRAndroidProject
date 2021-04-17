@@ -12,14 +12,22 @@
         android:roundIcon="@mipmap/firlogo"
         android:supportsRtl="true"
         android:theme="@style/Theme.OnlineFIR">
-        <activity android:name=".complainStatus.DisplayInListActivity"></activity>
+        <activity android:name=".admin.AdminDisplayUserActivity"/>
+        <activity android:name=".admin.AdminDisplayComplainActivity" />
+        <activity android:name=".admin.AdminUserActivity"
+            tools:ignore="Instantiatable" />
+        <activity android:name=".admin.AdminLayoutActivity" />
+        <activity android:name=".complainStatus.DisplayInListActivity" />
         <activity android:name=".DetailActivity" />
         <activity
             android:name=".complainStatus.MyComplainActivity"
             tools:ignore="Instantiatable" />
-        <activity android:name=".admin.ViewComplainActivity" />
+        <activity android:name=".admin.ViewComplainActivity"
+            tools:ignore="Instantiatable" />
         <activity android:name=".admin.AddAdminActivity" />
-        <activity android:name=".admin.AdminLoginActivity" />
+        <activity android:name=".admin.AdminLoginActivity">
+            
+        </activity>
         <activity android:name=".ForgotPassword" />
         <activity android:name=".DisplayComplainActivity" />
 
@@ -34,14 +42,14 @@
         <activity
             android:name=".NewsActivity"
             tools:ignore="Instantiatable" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

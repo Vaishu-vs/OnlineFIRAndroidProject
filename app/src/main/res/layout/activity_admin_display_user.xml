@@ -15,25 +15,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <TableRow>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Id"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-                <TextView
-                    android:id="@+id/textViewId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="User"
-                    android:textColor="@color/black"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-            </TableRow>
 
             <TableRow>
 
@@ -41,7 +22,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Username"
+                    android:text="First Name"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 <TextView
@@ -60,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Email"
+                    android:text="Last Name"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 <TextView
@@ -78,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Crime spot"
+                    android:text="Email"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 <TextView
@@ -96,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Pincode"
+                    android:text="City"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 <TextView
@@ -114,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Description"
+                    android:text="Pincode"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 <TextView
@@ -132,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Category"
+                    android:text="Address"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 <TextView
@@ -150,7 +131,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Date of Incident"
+                    android:text="Gender"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 <TextView
@@ -168,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Time of Incident"
+                    android:text="Phone No"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 <TextView
@@ -186,7 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Status"
+                    android:text="Adhar Card No"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 <TextView

@@ -49,7 +49,7 @@ public class AddAdminActivity extends AppCompatActivity implements View.OnClickL
         editTextAdminpassword = findViewById(R.id.editTextAdminpassword);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
         progressBar = findViewById(R.id.progressBar);
-        buttonAddAdmin = findViewById(R.id.signin);
+        buttonAddAdmin = findViewById(R.id.buttonAddAdmin);
 
         buttonAddAdmin.setOnClickListener(this);
     }
@@ -60,7 +60,7 @@ public class AddAdminActivity extends AppCompatActivity implements View.OnClickL
             case R.id.buttonAddAdmin:
                 if (editTextAdminpassword.getText().toString().length() < 5) {
                     editTextAdminpassword.setError("Enter password having length more than 5 characters");
-                } else if (editTextAdminpassword.getText().toString() != editTextConfirmPassword.getText().toString()) {
+                } else if (editTextAdminpassword.getText().toString() == editTextConfirmPassword.getText().toString()) {
                     editTextConfirmPassword.setError("Password and confirm password must be same");
                 } else if (editTextPoliceStationName.getText().toString() == "" || editTextAdminEmail.getText().toString() == "" || editTextAdminpassword.getText().toString() == "" || editTextConfirmPassword.getText().toString() == "") {
                     editTextPoliceStationName.setError("Please enter police station name");
@@ -126,7 +126,7 @@ public class AddAdminActivity extends AppCompatActivity implements View.OnClickL
         myRef.child(currentuser).setValue(taskMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Intent intent = new Intent(AddAdminActivity.this, LoginActivity.class);
+                Intent intent = new Intent(AddAdminActivity.this, AdminLoginActivity.class);
                 startActivity(intent);
             }
         });
