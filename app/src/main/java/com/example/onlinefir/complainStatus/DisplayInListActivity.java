@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,15 +38,12 @@ public class DisplayInListActivity extends AppCompatActivity {
         list = new ArrayList<>();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference().child("COMPLAIN");
-        table_user.keepSynced(true);
+
         table_user.child(s).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-                        //list.add(table_user.)
-                    }
+                    Log.i("Tag",dataSnapshot.child("Crime_spot").getValue().toString());
                 }  else {
                     Toast.makeText(DisplayInListActivity.this, "Error.", Toast.LENGTH_SHORT).show();
                 }

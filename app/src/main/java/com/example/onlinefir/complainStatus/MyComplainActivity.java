@@ -49,9 +49,10 @@ public class MyComplainActivity extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     ComplainData data = ds.getValue(ComplainData.class);
+                    data.setKey(ds.getKey());
                     fetchData.add(data);
                 }
-                myAdapter = new MyComplainAdapter(fetchData);
+                myAdapter = new MyComplainAdapter(fetchData,getActivity());
                 recyclerViewMyComplain.setAdapter(myAdapter);
             }
 

@@ -12,7 +12,8 @@ public class ComplainData {
     String Date_of_incident;
     String Time_of_incident;
     String Status;
-    String currentuser;
+    String UID;
+    String key;
 
     public ComplainData() {
         User_name = "";
@@ -23,11 +24,12 @@ public class ComplainData {
         Category = "";
         Date_of_incident = "";
         Time_of_incident = "";
-        currentuser = "";
+        UID = "";
         Status = "";
+        key = "";
     }
 
-    public ComplainData(String User_name, String Email, String Crime_spot, String Pincode, String Description, String Category, String Date_of_incident, String Time_of_incident, String currentuser, String Status) {
+    public ComplainData(String User_name, String Email, String Crime_spot, String Pincode, String Description, String Category, String Date_of_incident, String Time_of_incident, String UID, String Status,String key) {
         this.User_name = User_name;
         this.Email = Email;
         this.Crime_spot = Crime_spot;
@@ -36,8 +38,9 @@ public class ComplainData {
         this.Category = Category;
         this.Date_of_incident = Date_of_incident;
         this.Time_of_incident = Time_of_incident;
-        this.currentuser = currentuser;
+        this.UID = UID;
         this.Status = Status;
+        this.key = key;
     }
 
     @PropertyName("User_name")
@@ -80,12 +83,21 @@ public class ComplainData {
         return Time_of_incident;
     }
 
-    @PropertyName("currentuser")
-    public String getCurrentuser() {
-        return currentuser;
+    @PropertyName("UID")
+    public String getUID() {
+        return UID;
     }
     @PropertyName("Status")
     public String getStatus() {
         return Status;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    @PropertyName("key")
+    public String getKey() {
+        return key;
     }
 }

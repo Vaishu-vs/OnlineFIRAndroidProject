@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.onlinefir.DetailActivity;
 import com.example.onlinefir.R;
 import com.example.onlinefir.admin.ComplainData;
 
@@ -20,8 +18,9 @@ import java.util.List;
 class MyComplainAdapter extends RecyclerView.Adapter<MyComplainAdapter.ViewHolder> {
     List<ComplainData> fetchData;
     Context context;
-    public MyComplainAdapter(List<ComplainData> fetchData) {
+    public MyComplainAdapter(List<ComplainData> fetchData,Context context) {
         this.fetchData = fetchData;
+        this.context = context;
     }
 
     @Override
@@ -44,8 +43,8 @@ class MyComplainAdapter extends RecyclerView.Adapter<MyComplainAdapter.ViewHolde
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context.getApplicationContext(), DetailActivity.class);
-                i.putExtra("uid", fetchDataList.getCurrentuser());
+                Intent i = new Intent(context, DisplayInListActivity.class);
+                i.putExtra("uid", fetchDataList.getKey());
                 context.startActivity(i);
             }
         });
